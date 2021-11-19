@@ -8,9 +8,10 @@ import type { Locale } from '@suite-config/languages';
 import { isWeb, getWindowWidth } from '@suite-utils/env';
 import { ensureLocale } from '@suite-utils/l10n';
 import { getNumberFromPxString } from '@suite-utils/string';
+import type { InvityServerEnvironment } from '@wallet-types/invity';
 
 export interface DebugModeOptions {
-    invityAPIUrl?: string;
+    invityServerEnvironment?: InvityServerEnvironment;
     showDebugMenu: boolean;
     bridgeDevMode: boolean;
 }
@@ -88,7 +89,7 @@ const initialState: SuiteState = {
         language: ensureLocale('en'),
         torOnionLinks: isWeb(),
         debug: {
-            invityAPIUrl: undefined,
+            invityServerEnvironment: undefined,
             showDebugMenu: false,
             bridgeDevMode: false,
         },
