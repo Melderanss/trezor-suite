@@ -36,6 +36,8 @@ interface DesktopApi {
     setTorAddress: (address: string) => void;
     // Store
     clearStore: () => void;
+    clearUserData: () => Promise<any>;
+
     // Udev rules
     installUdevRules: () => Promise<{ success: true } | { success: false; error: string }>;
 }
