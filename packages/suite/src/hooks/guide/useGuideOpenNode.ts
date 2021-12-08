@@ -15,7 +15,9 @@ export const useGuideOpenNode = () => {
         open: state.guide.open,
     }));
 
-    const openNodeById = (id: string) => {
+    const openNodeById = (id: string | undefined) => {
+        if (!id) return;
+
         if (!indexNode) {
             console.error(`Guide index node was not found.`);
             return;

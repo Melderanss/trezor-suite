@@ -77,9 +77,9 @@ const GuideMarkdown = ({ markdown }: Props) => {
     return (
         <StyledMarkdown ref={ref}>
             <ReactMarkdown
-                renderers={{
-                    link: ({ children, href }) =>
-                        href.startsWith('http') ? (
+                components={{
+                    a: ({ children, href }) =>
+                        href?.startsWith('http') ? (
                             <TrezorLink variant="default" href={href}>
                                 {children}
                             </TrezorLink>
