@@ -20,7 +20,7 @@ import { isTranslationMode, setTranslationMode } from '@suite-utils/l10n';
 import { isWeb } from '@suite-utils/env';
 
 const StyledActionSelect = styled(ActionSelect)`
-    min-width: 250px;
+    min-width: 260px;
 `;
 
 const DebugSettings = () => {

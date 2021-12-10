@@ -25,6 +25,7 @@ export const MODULES = [
     'auto-updater',
     'store',
     'udev-install',
+    'invity-authentication',
 ];
 
 // Modules only used in prod mode

@@ -1,25 +1,24 @@
 /**
  * Bridge runner
  */
-import { app, session } from 'electron';
+import { app } from 'electron';
 import BridgeProcess from '@desktop-electron/libs/processes/BridgeProcess';
 import { b2t } from '@desktop-electron/libs/utils';
 
-const filter = {
-    urls: ['http://127.0.0.1:21325/*'],
-};
-
 const bridgeDev = app.commandLine.hasSwitch('bridge-dev');
 
-const init = async () => {
+const init = async ({ interceptor }: Dependencies) => {
     const { logger } = global;
     const bridge = new BridgeProcess();
 
-    session.defaultSession.webRequest.onBeforeSendHeaders(filter, (details, callback) => {
-        // @ts-ignore electron declares requestHeaders as an empty interface
-        details.requestHeaders.Origin = 'https://electron.trezor.io';
-        logger.debug('bridge', `Setting header for ${details.url}`);
-        callback({ cancel: false, requestHeaders: details.requestHeaders });
+    interceptor.onBeforeSendHeaders(details => {
+        // TODO: inject the 'http://127.0.0.1:21325/' from outside?
+        if (details.url.startsWith('http://127.0.0.1:21325/')) {
+            // @ts-ignore electron declares requestHeaders as an empty interface
+            details.requestHeaders.Origin = 'https://electron.trezor.io';
+            logger.debug('bridge', `Setting header for ${details.url}`);
+        }
+        return { cancel: false, requestHeaders: details.requestHeaders };
     });
 
     try {
