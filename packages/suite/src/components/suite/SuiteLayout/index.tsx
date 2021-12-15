@@ -10,7 +10,7 @@ import MenuSecondary from '@suite-components/MenuSecondary';
 import { MAX_WIDTH } from '@suite-constants/layout';
 import { DiscoveryProgress } from '@wallet-components';
 import NavigationBar from '../NavigationBar';
-import { useLayoutSize, useSelector, useActions, useAnalytics } from '@suite-hooks';
+import { useLayoutSize, useSelector, useActions, useAnalytics, useDevice } from '@suite-hooks';
 import * as guideActions from '@suite-actions/guideActions';
 import { MODAL } from '@suite-actions/constants';
 
@@ -202,7 +202,6 @@ const BodyMobile = ({ url, menu, appMenu, children }: MobileBodyProps) => (
 const SuiteLayout: React.FC = ({ children }) => {
     const analytics = useAnalytics();
 
-    // TODO: if (props.layoutSize === 'UNAVAILABLE') return <SmallLayout />;
     const { isMobileLayout, layoutSize } = useLayoutSize();
     const { router, guideOpen, isModalOpen } = useSelector(state => ({
         router: state.router,
@@ -254,12 +253,17 @@ const SuiteLayout: React.FC = ({ children }) => {
         [],
     );
 
+    const { device } = useDevice();
+    // Setting screens are available even if the device is not connected in normal mode
+    // but then we need to hide NavigationBar so user can't navigate to Dashboard and Accounts.
+    const isNavigationBarVisible = device?.mode === 'normal';
+
     return (
         <PageWrapper>
             <Metadata title={title} />
             <SuiteBanners />
             <DiscoveryProgress />
-            <NavigationBar />
+            {isNavigationBarVisible && <NavigationBar />}
             <LayoutContext.Provider value={{ title, menu, isMenuInline, setLayout }}>
                 {!isMobileLayout && (
                     <BodyNormal
