@@ -16,8 +16,7 @@ const AppNavigationPanelProvider = ({ children, inView }: AppNavigationPanelCtxP
 
 interface Props {
     title: React.ReactNode;
-    ticker?: React.ReactNode;
-    dropdown?: React.ReactNode;
+    titleContent?: React.ReactNode;
     maxWidth: 'small' | 'default';
     children?: React.ReactNode;
     navigation?: React.ReactNode;
@@ -25,7 +24,7 @@ interface Props {
 
 export const useInViewProp = () => React.useContext(AppNavigationPanelCtx);
 
-const AppNavigationPanel = (props: Props) => {
+const AppNavigationPanel = ({ title, titleContent, maxWidth, navigation, children }: Props) => {
     const { ref, inView } = useInView({
         delay: 100,
         initialInView: false,
@@ -34,17 +33,16 @@ const AppNavigationPanel = (props: Props) => {
     return (
         <AppNavigationPanelInner
             ref={ref}
-            title={props.title}
-            ticker={props.ticker}
-            dropdown={props.dropdown}
-            maxWidth={props.maxWidth}
+            title={title}
+            titleContent={titleContent}
+            maxWidth={maxWidth}
             navigation={
                 <AppNavigationPanelProvider inView={inView}>
-                    {props.navigation}
+                    {navigation}
                 </AppNavigationPanelProvider>
             }
         >
-            {props.children}
+            {children}
         </AppNavigationPanelInner>
     );
 };

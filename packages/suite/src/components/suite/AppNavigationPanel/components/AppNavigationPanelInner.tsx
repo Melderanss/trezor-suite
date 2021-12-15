@@ -59,32 +59,30 @@ const Delimeter = styled.div``;
 
 interface Props {
     title: React.ReactNode;
-    ticker?: React.ReactNode;
-    dropdown?: React.ReactNode;
+    titleContent?: React.ReactNode;
     maxWidth: 'small' | 'default';
     children?: React.ReactNode;
     navigation?: React.ReactNode;
 }
 
-const AppNavigationPanelInner = React.forwardRef<HTMLDivElement, Props>((props, ref) => (
-    <>
-        <Wrapper ref={ref}>
-            <Content maxWidth={props.maxWidth}>
-                <BasicInfo>
-                    <TitleRow>
-                        <Title noMargin>{props.title}</Title>
-                        <Aside>
-                            {props.ticker}
-                            {props.dropdown}
-                        </Aside>
-                    </TitleRow>
-                    {props.children && <Row>{props.children}</Row>}
-                </BasicInfo>
-            </Content>
-        </Wrapper>
-        {props.navigation}
-        <Delimeter />
-    </>
-));
+const AppNavigationPanelInner = React.forwardRef<HTMLDivElement, Props>(
+    ({ maxWidth, title, titleContent, children, navigation }, ref) => (
+        <>
+            <Wrapper ref={ref}>
+                <Content maxWidth={maxWidth}>
+                    <BasicInfo>
+                        <TitleRow>
+                            <Title noMargin>{title}</Title>
+                            <Aside>{titleContent}</Aside>
+                        </TitleRow>
+                        {children && <Row>{children}</Row>}
+                    </BasicInfo>
+                </Content>
+            </Wrapper>
+            {navigation}
+            <Delimeter />
+        </>
+    ),
+);
 
 export default AppNavigationPanelInner;
